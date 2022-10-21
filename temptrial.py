@@ -11,6 +11,9 @@ root.title('MyMath')
 root.geometry("500x500")
 
 
+Grid.rowconfigure(root, 0,weight=1)
+Grid.columnconfigure(root,0,weight=1)
+
 # defining area function
 
 
@@ -80,7 +83,6 @@ def volume():
 
 # defining condition_check function
 
-
 def condition_check():
     tocheck = conditions.get()
     if tocheck == "Pythagorean Triplet Checker":
@@ -96,30 +98,6 @@ def condition_check():
     elif tocheck == "Complimentary&Supplementary Angles":
         angle = float(angle_entry.get())
         comsup = mycondition(tocheck, 0, 0, 0, angle)
-        
-#define surface area function
-def surface_area():
-    selected_solid_shape = solidshape.get()
-    if selected_solid_shape == "Sphere":
-        r1 = float(radius_entry3.get())
-        sa_sphere = mysurfacearea(selected_solid_shape.lower(), 0, 0, 0, r1)
-        messagebox.showinfo("Surface area Sphere", sa_sphere)
-    elif selected_solid_shape == "Cone":
-        r1 = float(radius_entry3.get())
-        h1 = float(height3.get())
-        sa_cone = mysurfacearea(selected_solid_shape.lower(), 0, 0, h1, r1)
-        messagebox.showinfo("Surface Area Cone", sa_cone)
-
-    elif selected_solid_shape == "Cube":
-        l1 = float(radius_entry3.get())
-        sa_cube = mysurfacearea(selected_solid_shape.lower(), l1, 0, 0, 0)
-        messagebox.showinfo("Surface area Cube", sa_cube)
-    elif selected_solid_shape == "Cylinder":
-        r1 = float(radius_entry3.get())
-        h1 = float(height3.get())
-        sa_cylinder = mysurfacearea(selected_solid_shape.lower(), 0, 0, h1, r1)
-        messagebox.showinfo("Surface Area Cylinder", sa_cylinder)
-    
 
 
 # creating tabs
@@ -130,17 +108,14 @@ note1.pack(pady=5)
 area_frame = Frame(note1, width=300, height=300  )
 volume_frame = Frame(note1, width=300, height=300)
 condition_frame = Frame(note1, width=300, height=300)
-area3d_frame = Frame(note1,width=300 , height=300)
 area_frame.pack(fill="both", expand=1)
 volume_frame.pack(fill="both", expand=1)
 condition_frame.pack(fill="both", expand=1)
-area3d_frame.pack(fill="both",expand=1)
 
 # adding tabs
 note1.add(area_frame, text="Area Calculator")
 note1.add(volume_frame, text="Volume Calculator")
 note1.add(condition_frame, text="Condition Checker")
-note1.add(area3d_frame, text="Surface Area Calculator")
 
 # defining shapes and show
 shapes = StringVar()
@@ -149,8 +124,6 @@ solidshape = StringVar()
 solidshape.set("Select")
 conditions = StringVar()
 conditions.set("Select")
-surfarea = StringVar()
-surfarea.set("Select")
 
 
 def show1():
@@ -163,9 +136,6 @@ def show2():
 
 def show3():
     mylabel3 = Label(condition_frame, text=conditions.get()).pack()
-    
-def show4():
-    mylabel4 = Label(area3d_frame, text=surfarea.get()).pack()
 
 
 # area frame option
@@ -175,18 +145,27 @@ mybutton1 = Button(area_frame, text="Select shape", command=show1, bg='red').pac
 
 radius_side = Label(area_frame, text="Enter radius or side in m").pack()
 
-radius_entry = Entry(area_frame, font=("Helvetica", 20))
-radius_entry.pack()
+radius_entry = Entry( font=("Helvetica", 20))
+
 
 height = Label(
     area_frame, text="Enter height or width in m if applicable else enter 0").pack()
-height_entry = Entry(area_frame, font=("Helvetica", 20))
-height_entry.pack()
+height_entry = Entry( font=("Helvetica", 20))
 
+
+b1=[radius_entry,height_entry]
+row_no=0
+
+for Entry in b1:
+    Grid.rowconfigure(root,row_no,weight=1)
+    row_no+=1
+    
+radius_entry.grid(row=0, column=0, sticky= "nsew")
+height_entry.grid(row=1, column=0, stick= "nsew")
 
 # volume frame option
 volume_options = OptionMenu(
-    volume_frame, solidshape, "Cone", "Sphere", "Cylinder", "Cube" , "Cuboid").pack()
+    volume_frame, solidshape, "Cone", "Sphere", "Cylinder", "Cube", "Cuboid").pack()
 mybutton2 = Button(volume_frame, text="Select shape", command=show2 , bg='blue' ).pack()
 radius_side2 = Label(volume_frame, text="Enter radius or side in m").pack()
 radius_entry2 = Entry(volume_frame, font=("Helvetica", 20))
@@ -199,8 +178,6 @@ width = Label(
     volume_frame, text="Enter breadth in m if applicable else enter 0").pack()
 width_entry = Entry(volume_frame, font=("Helvetica", 20))
 width_entry.pack()
-
-
 
 # condition frame
 condition_options = OptionMenu(condition_frame, conditions,
@@ -220,27 +197,6 @@ angle_label = Label(condition_frame, text="Enter angle in degrees").pack()
 angle_entry = Entry(condition_frame, font=("Helvetica", 20))
 angle_entry.pack()
 
-#surface area frame
-surfacearea_options = OptionMenu(
-    area3d_frame, surfarea, "Cone", "Sphere", "Cylinder", "Cube" , "Cuboid").pack()
-mybutton4 = Button(area3d_frame, text="Select shape", command=show4 , bg='blue' ).pack()
-radius_side3 = Label(area3d_frame, text="Enter radius or side in m").pack()
-radius_entry3 = Entry(area3d_frame, font=("Helvetica", 20))
-radius_entry3.pack()
-height3 = Label(
-    area3d_frame, text="Enter height in m if applicable else enter 0").pack()
-height3 = Entry(area3d_frame, font=("Helvetica", 20))
-height3.pack()
-width2 = Label(
-    area3d_frame, text="Enter breadth in m if applicable else enter 0").pack()
-width_entry2 = Entry(area3d_frame, font=("Helvetica", 20))
-width_entry2.pack()
-
-
-
-
-
-
 # button frame
 button_frame1 = Frame(area_frame)
 button_frame1.pack()
@@ -248,9 +204,6 @@ button_frame2 = Frame(volume_frame)
 button_frame2.pack()
 button_frame3 = Frame(condition_frame)
 button_frame3.pack()
-button_frame4 = Frame(area3d_frame)
-button_frame4.pack()
-
 
 # creating buttons
 button1 = Button(button_frame1, text="Calculate", command=area , bg='yellow')
@@ -259,7 +212,5 @@ button2 = Button(button_frame2, text="Calculate", command=volume , bg='orange')
 button2.grid(row=0, column=0, padx=10)
 button3 = Button(button_frame3, text="Calculate", command=condition_check , bg='pink')
 button3.grid(row=0, column=0, padx=10)
-button4 = Button(button_frame4, text="Calculate", command=surface_area , bg='pink')
-button4.grid(row=0, column=0, padx=10)
 
 root.mainloop()

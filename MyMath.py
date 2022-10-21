@@ -1,8 +1,26 @@
+from math import pi
 from tkinter import messagebox
 
 # myArea takes 5 arguments and gives us area of 2D shapes
 
-
+def mysurfacearea(name, length, breadth, height, radius):
+    name = name.lower()
+    if name == "sphere":
+        return(4*3.14*radius*radius)
+    elif name == "cube":
+        return(6*radius*radius)
+    elif name == "cone":
+        return(pi*radius*(length+radius))
+    elif name == "cuboid":
+        return(2*((length*breadth)+(breadth*height)+(length*height)))
+    elif name == "cylinder":    
+        return(2*pi*radius*(radius+height))
+    else:
+        return(-1)
+    
+    
+    
+    
 def myArea(name, length, breadth, height, radius):
     name = name.lower()
     if name == "rectangle":
